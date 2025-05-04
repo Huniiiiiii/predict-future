@@ -36,6 +36,7 @@ target_year = st.number_input("예측할 연도 (2026 이상)", min_value=2026, 
 
 if st.button("예측 실행"):
     rows = []
+    r2_list = []
     regions = df_long["지역"].unique()
     progress_bar = st.progress(0)
     status_text = st.empty()
@@ -43,6 +44,7 @@ if st.button("예측 실행"):
     for idx, region in enumerate(regions):
         region_df = df_long[df_long["지역"] == region].copy().sort_values("연도")
         pred_yr_dict = {}
+        final_r2 = None
 
         for year in range(2025, target_year + 1):
             X = region_df[["연도"]]
@@ -61,6 +63,7 @@ if st.button("예측 실행"):
                 r2 = r2_score(y, y_pred)
                 retry += 1
 
+            final_r2 = r2  # 마지막 학습의 R2 저장
             pred = model.predict([[year]])[0]
             pred_yr_dict[year] = round(pred)
             region_df = pd.concat(
@@ -75,6 +78,9 @@ if st.button("예측 실행"):
             shelter, counsel = calculate_facilities(final_prediction)
         else:
             shelter, counsel = "-", "-"
+
+        if final_r2 is not None:
+            r2_list.append(final_r2)
 
         rows.append({
             "지역": region,
@@ -98,3 +104,7 @@ if st.button("예측 실행"):
         file_name=f"{target_year}_예상신고_및_필요시설.csv",
         mime="text/csv"
     )
+
+    if r2_list:
+        avg_r2 = sum(r2_list) / len(r2_list)
+        st.success(f"✅ 전체 지역 예측 신뢰도 평균 (R²): {avg_r2:.3f}")
