@@ -2,8 +2,9 @@ import pandas as pd
 import streamlit as st
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import r2_score
+import time
 
-st.title("📊 지역별 가정폭력 신고 예측 및 시설 필요 수 계산 (2023년 기준 통합 격차 지수가 부족, 심각 지역만 해당)")
+st.title("📊 2025년 이후 지역별 가정폭력 신고 예측 및 필요 시설 수 계산 (2023년 기준 통합 격차 지수가 부족, 심각 지역만 해당)")
 
 # 데이터 불러오기
 @st.cache_data
@@ -35,7 +36,11 @@ target_year = st.number_input("예측할 연도 (2026 이상)", min_value=2026, 
 
 if st.button("예측 실행"):
     rows = []
-    for region in df_long["지역"].unique():
+    regions = df_long["지역"].unique()
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+
+    for idx, region in enumerate(regions):
         region_df = df_long[df_long["지역"] == region].copy().sort_values("연도")
         pred_yr_dict = {}
 
@@ -78,6 +83,11 @@ if st.button("예측 실행"):
             "필요 보호소 수": shelter,
             "필요 상담소 수": counsel
         })
+
+        # 진행률 업데이트
+        progress = (idx + 1) / len(regions)
+        progress_bar.progress(progress)
+        status_text.text(f"{region} 처리 중... ({idx + 1}/{len(regions)})")
 
     result_df = pd.DataFrame(rows)
     st.dataframe(result_df)
