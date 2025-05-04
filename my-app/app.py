@@ -8,13 +8,13 @@ st.title("📊 지역별 가정폭력 신고 예측 및 시설 필요 수 계산
 # 데이터 불러오기
 @st.cache_data
 def load_data():
-    df = pd.read_csv("data/2021~2024 지역별 가정폭력 신고건수.csv", encoding="utf-8")
+    df = pd.read_csv("data/report_data.csv", encoding="utf-8")
     df = df.melt(id_vars=["신고건수 연도"], var_name="지역", value_name="신고건수")
     df = df.rename(columns={"신고건수 연도": "연도"})
     df["연도"] = pd.to_numeric(df["연도"], errors="coerce")
     df["신고건수"] = pd.to_numeric(df["신고건수"], errors="coerce")
 
-    gap_df = pd.read_csv("data/2023 통합(상담소+보호소)격차지수 및 격차 등급.csv", encoding="cp949")
+    gap_df = pd.read_csv("data/gap_grades.csv", encoding="cp949")
     grade_map = gap_df.iloc[6, 1:].to_dict()
 
     return df, grade_map
