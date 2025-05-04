@@ -5,11 +5,18 @@ from sklearn.metrics import r2_score
 import time
 
 st.title("📊 2025년 이후 지역별 가정폭력 신고 예측 및 필요 시설 수 계산")
-st.markdown("""
-### 📌 설명
-2023년 기준 통합 격차 지수가 **부족, 심각** 지역만 해당하며,
-해당 연도에 '주의' 미만이 되기 위해 필요한 **총 시설 수**를 계산합니다. (기존 시설 수는 고려하지 않음)
-""")
+
+st.markdown(
+    """
+    <h4 style='margin-top: 20px; color: gray; font-weight: normal;'>
+    2023년 기준 통합 격차 지수가 <strong>부족, 심각</strong> 지역만 해당하며,<br>
+    해당 연도에 '주의' 미만이 되기 위해 필요한 <strong>총 시설 수</strong>를 계산합니다. 
+    <br><em>(기존 시설 수는 고려하지 않음)</em>
+    </h4>
+    """,
+    unsafe_allow_html=True
+)
+
 
 # 데이터 불러오기
 @st.cache_data
