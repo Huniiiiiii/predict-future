@@ -4,7 +4,12 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import r2_score
 import time
 
-st.title("📊 2025년 이후 지역별 가정폭력 신고 예측 및 필요 시설 수 계산 (2023년 기준 통합 격차 지수가 부족, 심각 지역만 해당하고 해당 년도에 주의 미만이 되기 위해 필요한 수(총 시설 수로 기존의 시설 수를 고려하지 않음))")
+st.title("📊 2025년 이후 지역별 가정폭력 신고 예측 및 필요 시설 수 계산")
+st.markdown("""
+### 📌 설명
+2023년 기준 통합 격차 지수가 **부족, 심각** 지역만 해당하며,
+해당 연도에 '주의' 미만이 되기 위해 필요한 **총 시설 수**를 계산합니다. (기존 시설 수는 고려하지 않음)
+""")
 
 # 데이터 불러오기
 @st.cache_data
