@@ -44,7 +44,7 @@ if st.button("예측 실행"):
         region_df = df_long[df_long["지역"] == region].copy().sort_values("연도")
         pred_yr_dict = {}
 
-        for year in range(2026, target_year + 1):
+        for year in range(2025, target_year + 1):
             X = region_df[["연도"]]
             y = region_df["신고건수"]
 
