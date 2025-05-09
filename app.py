@@ -11,7 +11,7 @@ st.title("2025년 이후 지역별 가정폭력 신고 예측 및 필요 시설 
 st.markdown(
     """
     <p style='font-size: 16px; color: #666; margin-top: -10px;'>
-    본 웹사이트는 <strong>여성가족부 AI·데이터 분석·활용 공모전</strong>을 위해 제작된 예측 시각화 플랫폼이며,<br>
+    본 웹사이트는 <strong>여성가족부 AI·데이터 분석·활용 공모전</strong>을 위해 제작된 예측 플랫폼이며,<br>
     <strong>“다다름”</strong> 조 – <em>“다르지 않게, 다 닿을 수 있도록”</em> 이라는 의미를 담아 개발되었습니다.
     </p>
     """,
