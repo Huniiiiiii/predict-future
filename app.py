@@ -1,4 +1,3 @@
-
 import pandas as pd
 import streamlit as st
 from sklearn.ensemble import RandomForestRegressor
@@ -8,6 +7,16 @@ from sklearn.metrics import r2_score
 import time
 
 st.title("2025년 이후 지역별 가정폭력 신고 예측 및 필요 시설 수 계산")
+
+st.markdown(
+    """
+    <p style='font-size: 16px; color: #666; margin-top: -10px;'>
+    본 웹사이트는 <strong>여성가족부 AI·데이터 분석·활용 공모전</strong>을 위해 제작된 예측 시각화 플랫폼이며,<br>
+    <strong>“다다름”</strong> 조 – <em>“다르지 않게, 다 닿을 수 있도록”</em> 이라는 의미를 담아 개발되었습니다.
+    </p>
+    """,
+    unsafe_allow_html=True
+)
 
 st.markdown(
     '''
@@ -109,11 +118,8 @@ if run_prediction:
         time.sleep(0.05)
 
     result_df = pd.DataFrame(rows)
-
-    # 🔧 문자열 강제 변환 (Arrow 변환 오류 방지)
     result_df["필요 보호소 수"] = result_df["필요 보호소 수"].astype(str)
     result_df["필요 상담소 수"] = result_df["필요 상담소 수"].astype(str)
-
     st.dataframe(result_df)
 
     csv = result_df.to_csv(index=False).encode("utf-8-sig")
@@ -132,9 +138,10 @@ if run_prediction:
         "</p>",
         unsafe_allow_html=True
     )
+
 st.markdown("## 커버력 계산 기준 설명")
 
-with st.expander("커버력 계산 공식 및 기준 보기"):
+with st.expander("커버력 계산 공식 및 AI 예측 모델 설명 보기"):
     st.markdown("""
     ### 커버력 계산 공식 (2023년, 격차지수 '적정' 지역 기준)
 
@@ -151,7 +158,7 @@ with st.expander("커버력 계산 공식 및 기준 보기"):
     - 상담소 커버력 비율 = 상담소 커버력 ÷ 총 커버력 ≈ **99.17%**  
     - 보호소 커버력 비율 = 보호소 커버력 ÷ 총 커버력 ≈ **0.83%**
 
-    **위 비율(상담소:보호소 = 약 99:1)은 2023년 격차지수 '적정' 지역 평균값 기반입니다.**
+    **📌 위 비율(상담소:보호소 = 약 99:1)은 2023년 격차지수 '적정' 지역 평균값 기반입니다.**
 
     ---
 
@@ -170,6 +177,8 @@ with st.expander("커버력 계산 공식 및 기준 보기"):
     - 상담소 수 = 상담소 커버력 ÷ 1000  
     - 보호소 수 = 보호소 커버력 ÷ 16.74
 
+    ---
+
     ### 사용된 예측 모델 설명
 
     본 시스템은 지역별 가정폭력 신고건수를 예측하기 위해 다음의 3가지 회귀 모델을 사용합니다.
@@ -185,6 +194,6 @@ with st.expander("커버력 계산 공식 및 기준 보기"):
     - 각 모델의 R²(결정계수)을 기반으로 **신뢰도 평균(R²)** 산출
     - R²이 0.7 이상일 경우에만 해당 지역의 예측을 '신뢰 가능'으로 판단
 
-    **R²(결정계수)**는 모델이 과거 데이터를 얼마나 잘 설명하는지를 나타내는 지표입니다.  
+    **📌 R²(결정계수)**는 모델이 과거 데이터를 얼마나 잘 설명하는지를 나타내는 지표입니다.  
     1.0에 가까울수록 신뢰도가 높으며, 과적합을 방지하기 위해 다중 모델을 평균하여 사용합니다.
     """)
