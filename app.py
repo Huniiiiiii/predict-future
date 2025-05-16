@@ -50,7 +50,7 @@ def calculate_model_confidence(region_df):
     retry = 0
     avg_r2 = 0
 
-    while avg_r2 < 0.7 and retry < 10:
+    while avg_r2 < 0.7 and retry < 5:
         rf = RandomForestRegressor(n_estimators=100, random_state=retry)
         lr = LinearRegression()
         xgb = XGBRegressor(n_estimators=100, learning_rate=0.1, random_state=retry)
